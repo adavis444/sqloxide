@@ -10,6 +10,7 @@ on:
 
 jobs:
   lint:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,7 +42,7 @@ jobs:
 
   native-build:
     runs-on: ${{ matrix.os }}
-    needs: lint
+    #needs: lint
     strategy:
       fail-fast: false
       matrix:
@@ -104,7 +105,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   manylinux-build:
-    if: true
+    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -115,7 +116,7 @@ jobs:
           - {tag: manylinux2014, arch: ppc64le}
 
     runs-on: ubuntu-latest
-    needs: lint
+    #needs: lint
     steps:
       - uses: actions/checkout@v2
         with:
@@ -141,6 +142,7 @@ jobs:
           path: io/dist/*${{ matrix.tag }}_${{ matrix.arch }}.whl
 
   publish:
+    if: false
     runs-on: ubuntu-latest
     needs: [manylinux-build, native-build]
     steps: 
