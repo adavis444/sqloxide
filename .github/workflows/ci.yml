@@ -50,8 +50,6 @@ jobs:
         os: [macos-latest, ubuntu-latest] # [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -85,6 +83,8 @@ jobs:
         if:  matrix.os != 'macos-latest'
         run: poetry run python setup.py bdist_wheel && poetry install
 
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
       - name: pytest
         run: poetry run pytest tests
 
